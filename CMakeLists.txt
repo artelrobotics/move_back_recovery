@@ -3,11 +3,16 @@ project(move_back_recovery)
 
 find_package(catkin REQUIRED
         COMPONENTS
+            angles
+            base_local_planner
             cmake_modules
             costmap_2d
+            geometry_msgs
             nav_core
             pluginlib
             roscpp
+            tf2
+            tf2_geometry_msgs
             tf2_ros
         )
 
@@ -25,6 +30,7 @@ catkin_package(
     LIBRARIES move_back_recovery
     CATKIN_DEPENDS
         costmap_2d
+        geometry_msgs
         nav_core
         pluginlib
         roscpp
