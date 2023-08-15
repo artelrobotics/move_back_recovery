@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>move_back_recovery</name>
+  <version>0.0.0</version>
+  <description>The move_back_recovery package</description>
+
+  <maintainer email="shakhboz@todo.todo">shakhboz</maintainer>
+  <license>TODO</license>
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+    <build_depend>cmake_modules</build_depend>
+
+    <depend>costmap_2d</depend>
+    <depend>eigen</depend>
+    <depend>nav_core</depend>
+    <depend>pluginlib</depend>
+    <depend>roscpp</depend>
+    <depend>tf2_ros</depend>
+
+    <export>
+        <nav_core plugin="${prefix}/ccr_plugin.xml" />
+    </export>
+</package>
