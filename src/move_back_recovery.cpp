@@ -22,7 +22,7 @@ void MoveBackClearRecovery::initialize(std::string name, tf2_ros::Buffer*,
     ros::NodeHandle private_nh("~/" + name_);
     private_nh.param<double>("distance_backwards", distance_backwards_, 0.20);
     private_nh.param<double>("frequency", frequency_, 20.0);
-    private_nh.param<int>("letal_cost", cost_, 250);
+    private_nh.param<int>("lethal_cost", cost_, 250);
     private_nh.param<double>("linear_vel_x_", linear_vel_x_, 0.1);
     world_model_ = new base_local_planner::CostmapModel(*local_costmap_->getCostmap());
     costmap2d_ = local_costmap_->getCostmap();
