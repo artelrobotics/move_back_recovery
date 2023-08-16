@@ -20,8 +20,10 @@ void MoveBackClearRecovery::initialize(std::string name, tf2_ros::Buffer*,
 
     //get some parameters from the parameter server
     ros::NodeHandle private_nh("~/" + name_);
-    private_nh.param("distance_backwards", distance_backwards_, 0.25);
-    private_nh.param("frequency", frequency_, 20.0);
+    private_nh.param<double>("distance_backwards", distance_backwards_, 0.20);
+    private_nh.param<double>("frequency", frequency_, 20.0);
+    private_nh.param<int>("letal_cost", cost_, 250);
+    private_nh.param<double>("linear_vel_x_", linear_vel_x_, 0.1);
     world_model_ = new base_local_planner::CostmapModel(*local_costmap_->getCostmap());
     costmap2d_ = local_costmap_->getCostmap();
     initialized_ = true;
@@ -69,7 +71,6 @@ void MoveBackClearRecovery::runBehavior()
             double dx = current_x - start_x;
             double dy = current_y - start_y;
             double moved_dist = std::sqrt(dx * dx + dy * dy);
-            ROS_WARN("MoveBackClearRecovery: moved_dist is %.2f", moved_dist);
             if (moved_dist >= distance_backwards_)
             {
                 got_dist = true;
@@ -86,7 +87,7 @@ void MoveBackClearRecovery::runBehavior()
                     ROS_ERROR("MoveBackClearRecovery can't move back because there is a potential collision. Cost: %.2f", line_cost);
                     return;
                 }
-                else if (line_cost > 200)
+                else if (line_cost > cost_)
                 {
                     ROS_ERROR("MoveBackClearRecovery can't move back because there is a potential collision. Cost: %.2f", line_cost);
                     return;
@@ -94,9 +95,8 @@ void MoveBackClearRecovery::runBehavior()
 
                 else
                 {
-                    ROS_WARN("MoveBackClearRecovery: line cost is %.2f", line_cost);
                     geometry_msgs::Twist cmd_vel;
-                    cmd_vel.linear.x = -0.1;
+                    cmd_vel.linear.x = std::fabs(linear_vel_x_) * -1.0;
                     cmd_vel.angular.z = 0.0;
                     vel_pub.publish(cmd_vel);
                     r.sleep();

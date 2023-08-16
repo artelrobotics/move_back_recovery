@@ -45,13 +45,16 @@ namespace move_back_recovery{
 
     private:
       costmap_2d::Costmap2DROS* local_costmap_;
+      costmap_2d::Costmap2D* costmap2d_;
+      base_local_planner::CostmapModel* world_model_;
       std::string name_;
       ros::Publisher vel_pub;
       bool initialized_;
-      base_local_planner::CostmapModel* world_model_;
       double distance_backwards_;
       double frequency_;
-      costmap_2d::Costmap2D* costmap2d_;
+      double linear_vel_x_;
+      int cost_;
+
   };
 };
 #endif
