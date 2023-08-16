@@ -6,6 +6,7 @@
 #include <costmap_2d/costmap_layer.h>
 #include <base_local_planner/costmap_model.h>
 #include <string>
+#include <costmap_2d/costmap_2d.h>
 
 namespace move_back_recovery{
   /**
@@ -50,6 +51,7 @@ namespace move_back_recovery{
       base_local_planner::CostmapModel* world_model_;
       double distance_backwards_;
       double frequency_;
+      costmap_2d::Costmap2D* costmap2d_;
   };
 };
 #endif

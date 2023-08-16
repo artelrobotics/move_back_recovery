@@ -20,9 +20,10 @@ void MoveBackClearRecovery::initialize(std::string name, tf2_ros::Buffer*,
 
     //get some parameters from the parameter server
     ros::NodeHandle private_nh("~/" + name_);
-    private_nh.param("distance_backwards", distance_backwards_, 0.1);
+    private_nh.param("distance_backwards", distance_backwards_, 0.25);
     private_nh.param("frequency", frequency_, 20.0);
     world_model_ = new base_local_planner::CostmapModel(*local_costmap_->getCostmap());
+    costmap2d_ = local_costmap_->getCostmap();
     initialized_ = true;
   }
   else{
@@ -68,6 +69,7 @@ void MoveBackClearRecovery::runBehavior()
             double dx = current_x - start_x;
             double dy = current_y - start_y;
             double moved_dist = std::sqrt(dx * dx + dy * dy);
+            ROS_WARN("MoveBackClearRecovery: moved_dist is %.2f", moved_dist);
             if (moved_dist >= distance_backwards_)
             {
                 got_dist = true;
@@ -75,8 +77,16 @@ void MoveBackClearRecovery::runBehavior()
             else
             {
                 local_costmap_->getOrientedFootprint(oriented_footprint);
-                double line_cost = world_model_->lineCost(oriented_footprint[0].x, oriented_footprint[0].y, oriented_footprint[1].x, oriented_footprint[1].y);
+                unsigned int cell1_x, cell1_y, cell2_x, cell2_y;
+                costmap2d_->worldToMap(oriented_footprint[0].x, oriented_footprint[0].y, cell1_x, cell1_y);
+                costmap2d_->worldToMap(oriented_footprint[1].x, oriented_footprint[1].y, cell2_x, cell2_y);
+                double line_cost = world_model_->lineCost(cell1_x, cell1_y, cell2_x, cell2_y);
                 if (line_cost < 0)
+                {
+                    ROS_ERROR("MoveBackClearRecovery can't move back because there is a potential collision. Cost: %.2f", line_cost);
+                    return;
+                }
+                else if (line_cost > 200)
                 {
                     ROS_ERROR("MoveBackClearRecovery can't move back because there is a potential collision. Cost: %.2f", line_cost);
                     return;
@@ -90,6 +100,7 @@ void MoveBackClearRecovery::runBehavior()
                     cmd_vel.angular.z = 0.0;
                     vel_pub.publish(cmd_vel);
                     r.sleep();
+                    local_costmap_->updateMap();
                 }
 
             }

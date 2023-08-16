@@ -1,27 +1,28 @@
 {
-  "configurations": [
-    {
-      "browse": {
-        "databaseFilename": "${default}",
-        "limitSymbolsToIncludedHeaders": false
-      },
-      "includePath": [
-        "/opt/ros/noetic/include/**",
-        "/home/shakhboz/robot_ws/devel/include/**",
-        "/home/shakhboz/robot_ws/src/aruco_ros/aruco/include/**",
-        "/home/shakhboz/robot_ws/src/aruco_ros/aruco_ros/include/**",
-        "/home/shakhboz/robot_ws/src/docking_server/include/**",
-        "/home/shakhboz/robot_ws/src/ROS-Driver/ROS-Driver-Update/roboteq_motor_controller_driver/include/**",
-        "/home/shakhboz/robot_ws/src/turtlebot3_simulations/turtlebot3_fake/include/**",
-        "/home/shakhboz/robot_ws/src/turtlebot3_simulations/turtlebot3_gazebo/include/**",
-        "/usr/include/**"
-      ],
-      "name": "ROS",
-      "intelliSenseMode": "gcc-x64",
-      "compilerPath": "/usr/bin/gcc",
-      "cStandard": "gnu11",
-      "cppStandard": "c++14"
-    }
-  ],
-  "version": 4
+    "configurations": [
+        {
+            "browse": {
+                "databaseFilename": "${default}",
+                "limitSymbolsToIncludedHeaders": false
+            },
+            "includePath": [
+                "/opt/ros/noetic/include/**",
+                "/home/shakhboz/robot_ws/devel/include/**",
+                "/home/shakhboz/robot_ws/src/aruco_ros/aruco/include/**",
+                "/home/shakhboz/robot_ws/src/aruco_ros/aruco_ros/include/**",
+                "/home/shakhboz/robot_ws/src/docking_server/include/**",
+                "/home/shakhboz/robot_ws/src/ROS-Driver/ROS-Driver-Update/roboteq_motor_controller_driver/include/**",
+                "/home/shakhboz/robot_ws/src/turtlebot3_simulations/turtlebot3_fake/include/**",
+                "/home/shakhboz/robot_ws/src/turtlebot3_simulations/turtlebot3_gazebo/include/**",
+                "/usr/include/**",
+                "${workspaceFolder}/include"
+            ],
+            "name": "ROS",
+            "intelliSenseMode": "gcc-x64",
+            "compilerPath": "/usr/bin/gcc",
+            "cStandard": "gnu11",
+            "cppStandard": "c++14"
+        }
+    ],
+    "version": 4
 }
